@@ -12,12 +12,17 @@ import ChatIcon from '@material-ui/icons/Chat';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 
+import { useStateValue } from '../stateProvider/StateProvider'
 
 
-function SideBar(props) {
+function SideBar() {
+    const [{ user }, dispatch] = useStateValue();
+
     return (
         <DivSideBar>
-            <SideBarRow src='https://images.unsplash.com/photo-1577221084712-45b0445d2b00?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=643&q=80' title='Maiwand' />
+            <SideBarRow
+                src={user.photoURL}
+                title={user.displayName} />
             <SideBarRow Icon={LocalHospitalIcon} title='COVID-19 Information Center' />
 
             <SideBarRow title='Pages' Icon={EmojiFlagsIcon} />

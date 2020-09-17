@@ -6,25 +6,43 @@ import VideocamIcon from '@material-ui/icons/Videocam';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 
+import { useStateValue } from '../stateProvider/StateProvider'
+import db from '../firebase'
+import firebase from 'firebase'
 
-const handleSubmit = e => {
-    e.preventDefault();
-}
 
 function MessageSender() {
     const [input, setInput] = useState('');
     const [imageUrl, setImageUrl] = useState('');
 
+    const [{ user }, dispatch] = useStateValue();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // To post directly from the webpage
+        db.collection('posts').add({
+            message: firebase.firestore.FieldValue
+                .serverTimestamp(),
+            profilePic: user.photoURL,
+            username: user.displayName,
+            image: imageUrl
+        })
+
+        setInput('');
+        setImageUrl('');
+    }
+
     return (
         <MessageSenderDiv>
             <div className="messageSender__top">
-                <Avatar />
+                <Avatar src={user.photoURL} />
                 <form>
                     <input
                         value={input}
                         onChange={e => setInput(e.target.value)}
                         className="messageSender__input"
-                        placeholder={`What's on your mind?`} />
+                        placeholder={`What's on your mind ${user.displayName}?`} />
 
                     <input
                         placeholder={`image URL (Optional)`}
@@ -32,7 +50,7 @@ function MessageSender() {
                         onChange={e => setImageUrl(e.target.value)}
                     />
 
-                    <button onclick={handleSubmit} type='submit'>
+                    <button onClick={handleSubmit} type='submit'>
                         Hidden submit
                     </button>
                 </form>

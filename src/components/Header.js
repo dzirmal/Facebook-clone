@@ -13,8 +13,12 @@ import ForumIcon from '@material-ui/icons/Forum';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import { useStateValue } from '../stateProvider/StateProvider'
+
 
 function Header() {
+    const [{ user }, dispatch] = useStateValue();
+
     return (
         <HeaderMain className="header">
             <HeaderLeft className="header__left">
@@ -48,8 +52,8 @@ function Header() {
 
             <HeaderRight className="header__right">
                 <HeaderInfo>
-                    <Avatar />
-                    <h4>Maiwand</h4>
+                    <Avatar src={user.photoURL} />
+                    <h4>{user.displayName}</h4>
                 </HeaderInfo>
 
                 <IconButton>
