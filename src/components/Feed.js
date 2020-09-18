@@ -29,11 +29,11 @@ function Feed() {
 
             <Post
                 key={posts.id}
-                profilePic={posts.data.profilePic}
-                message={posts.data.message}
-                timestamp={posts.data.timestamp}
-                username={posts.data.username}
-                image={posts.data.image}
+                profilePic={posts.profilePic}
+                message={posts.message}
+                timestamp={posts.timestamp}
+                username={posts.username}
+                image={posts.image}
             />
 
         </FeedDiv>

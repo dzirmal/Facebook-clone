@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components'
+
+import { auth } from './firebase'
 
 import Header from './components/Header'
 import SideBar from './components/SideBar'
@@ -10,9 +12,35 @@ import { useStateValue } from './stateProvider/StateProvider'
 
 
 function App() {
-  const [{ user }] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
+
+  // Piece of code which runs based on a given condition. "useEffect"
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        // the user is logged in...
+        dispatch({
+          type: 'SET_USER',
+          user: authUser,
+        });
+      } else {
+        // the user is logged out...
+        dispatch({
+          type: 'SET_USER',
+          user: null,
+        });
+      }
+    });
+
+    return () => {
+      // Any clean-up operations go here. like time or other resets.
+      unsubscribe();
+    }
+
+  }, []);
 
   return (
+
     <DivApp>
       {!user ? (
         < Login />
