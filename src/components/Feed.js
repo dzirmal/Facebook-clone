@@ -27,14 +27,18 @@ function Feed() {
             <StoryReel />
             <MessageSender />
 
-            <Post
-                key={posts.id}
-                profilePic={posts.profilePic}
-                message={posts.message}
-                timestamp={posts.timestamp}
-                username={posts.username}
-                image={posts.image}
-            />
+            {
+                posts.map((post) =>
+                    <Post
+                        key={post.data.id}
+                        profilePic={post.data.profilePic}
+                        message={post.data.message}
+                        timestamp={post.data.timestamp}
+                        username={post.data.username}
+                        image={post.data.image}
+                    />
+                )
+            }
 
         </FeedDiv>
     )
